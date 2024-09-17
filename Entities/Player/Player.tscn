@@ -1,11 +1,33 @@
-[gd_scene load_steps=3 format=3 uid="uid://dm530yaejkxyf"]
+[gd_scene load_steps=14 format=3 uid="uid://dm530yaejkxyf"]
 
 [ext_resource type="Texture2D" uid="uid://ba4wapg78qa08" path="res://Entities/Player/Red_Hand_Jack_SPRITESHEET.png" id="1_cmuam"]
+[ext_resource type="Script" path="res://Entities/Common Entity Components/HealthComponent.gd" id="2_egkxq"]
+[ext_resource type="Script" path="res://Entities/Common Entity Components/AttackComponent.gd" id="3_wkm26"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/PlayerStateMachine.gd" id="4_kyqsb"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerIdle.gd" id="5_00w7u"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerRun.gd" id="6_46i8e"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerJumpStart.gd" id="7_8bfr8"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerJumpMiddle.gd" id="8_kiusb"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerJumpEnd.gd" id="9_b5qhl"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerAttack.gd" id="10_2bxto"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerHurt.gd" id="11_25wnf"]
+[ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerDeath.gd" id="12_h68hv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v87a7"]
 size = Vector2(4, 15)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+collision_mask = 14
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2_egkxq")
+
+[node name="AttackComponent" type="Node" parent="."]
+script = ExtResource("3_wkm26")
+
+[node name="Up" type="Area2D" parent="AttackComponent"]
+
+[node name="Left" type="Area2D" parent="AttackComponent"]
 
 [node name="Visuals" type="Node2D" parent="."]
 
@@ -19,3 +41,30 @@ vframes = 26
 
 [node name="RB2D collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_v87a7")
+
+[node name="PlayerStateMachine" type="Node2D" parent="."]
+script = ExtResource("4_kyqsb")
+
+[node name="PlayerIdle" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("5_00w7u")
+
+[node name="PlayerRun" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("6_46i8e")
+
+[node name="PlayerJumpStart" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("7_8bfr8")
+
+[node name="PlayerJumpMiddle" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("8_kiusb")
+
+[node name="PlayerJumpEnd" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("9_b5qhl")
+
+[node name="PlayerAttack" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("10_2bxto")
+
+[node name="PlayerHurt" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("11_25wnf")
+
+[node name="PlayerDeath" type="Node2D" parent="PlayerStateMachine"]
+script = ExtResource("12_h68hv")
