@@ -7,7 +7,7 @@ func enter(ctx: PlayerStateMachine):
 func update(ctx: PlayerStateMachine):
 	pass
 	
-func physics_update(ctx: PlayerStateMachine):
+func physics_update(_delta:float, ctx: PlayerStateMachine):
 	pass
 	
 func exit(ctx: PlayerStateMachine):
