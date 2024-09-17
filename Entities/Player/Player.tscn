@@ -1,3 +1,21 @@
-[gd_scene format=3 uid="uid://dm530yaejkxyf"]
+[gd_scene load_steps=3 format=3 uid="uid://dm530yaejkxyf"]
 
-[node name="Player" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://ba4wapg78qa08" path="res://Entities/Player/Red_Hand_Jack_SPRITESHEET.png" id="1_cmuam"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v87a7"]
+size = Vector2(4, 15)
+
+[node name="Player" type="CharacterBody2D"]
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="RedHandJackSpritesheet" type="Sprite2D" parent="Visuals"]
+position = Vector2(0, -4.5)
+texture = ExtResource("1_cmuam")
+hframes = 10
+vframes = 26
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals"]
+
+[node name="RB2D collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_v87a7")
