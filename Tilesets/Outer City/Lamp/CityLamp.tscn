@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsx3lahivdedl"]
+
+[ext_resource type="Texture2D" uid="uid://byc6sfjqo58sx" path="res://Tilesets/Outer City/Sprites/Outer_City_Decor_Lamp.png" id="1_s3ylu"]
+[ext_resource type="Script" path="res://Tilesets/Outer City/Lamp/CityLamp.gd" id="2_1qrtd"]
+[ext_resource type="Texture2D" uid="uid://dd8tl8tqxtfov" path="res://Tilesets/Outer City/Sprites/Outer_City_Decor_Lamp_Glow.png" id="3_ndv0l"]
+
+[sub_resource type="Animation" id="Animation_tfgvf"]
+resource_name = "Glow"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("OuterCityDecorLampGlow:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fdx7i"]
+_data = {
+"Glow": SubResource("Animation_tfgvf")
+}
+
+[node name="CityLamp" type="Sprite2D"]
+texture = ExtResource("1_s3ylu")
+script = ExtResource("2_1qrtd")
+
+[node name="OuterCityDecorLampGlow" type="Sprite2D" parent="."]
+position = Vector2(0, -11)
+texture = ExtResource("3_ndv0l")
+hframes = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_fdx7i")
+}
