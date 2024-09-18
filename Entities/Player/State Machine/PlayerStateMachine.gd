@@ -58,16 +58,16 @@ func _process(delta):
 	should_jump = jump_buffer.time_left >= 0
 	
 	
-	
+	flip()
 	current_state.update(self)
 	
 func _physics_process(delta):
 	current_state.physics_update(delta, self)
 	if !CB2D.is_on_floor():
-		CB2D.velocity.y += GRAVITY
+		CB2D.velocity.y += GRAVITY * delta # important detail!!!!
 	
 	if Input.is_action_just_pressed("jump") and can_jump and should_jump:
-		CB2D.velocity.y =  jump_force * 50
+		CB2D.velocity.y =  jump_force * nf/44
 		
 	CB2D.velocity.x = input_direction.x * movement_speed * nf * delta
 	CB2D.move_and_slide()
@@ -82,5 +82,10 @@ func on_hurt():
 	switch_state(hurt)
 
 func flip():
-	pass
+	if is_facing_right and input_direction.x < 0:
+		CB2D.scale.x *= -1
+		is_facing_right = !is_facing_right
+	elif !is_facing_right and input_direction.x > 0:
+		CB2D.scale.x *= -1
+		is_facing_right = !is_facing_right
 

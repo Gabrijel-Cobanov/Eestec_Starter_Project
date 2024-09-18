@@ -13,6 +13,12 @@
 [ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerHurt.gd" id="11_25wnf"]
 [ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerDeath.gd" id="12_h68hv"]
 
+[sub_resource type="Animation" id="Animation_bj381"]
+resource_name = "death"
+
+[sub_resource type="Animation" id="Animation_cu33m"]
+resource_name = "hurt"
+
 [sub_resource type="Animation" id="Animation_x5ox5"]
 resource_name = "idle"
 loop_mode = 1
@@ -29,10 +35,9 @@ tracks/0/keys = {
 "values": [80, 81, 80]
 }
 
-[sub_resource type="Animation" id="Animation_2t1hl"]
-resource_name = "run"
-length = 0.8
-loop_mode = 1
+[sub_resource type="Animation" id="Animation_yg3xg"]
+resource_name = "jump_end"
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -40,27 +45,10 @@ tracks/0/path = NodePath("RedHandJackSpritesheet:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
-"values": [100, 101, 102, 103, 104, 105, 106, 107]
-}
-
-[sub_resource type="Animation" id="Animation_wx14c"]
-resource_name = "jump_start"
-length = 0.25
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("RedHandJackSpritesheet:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [110, 114]
+"values": [130, 131, 132, 133]
 }
 
 [sub_resource type="Animation" id="Animation_ylrob"]
@@ -80,9 +68,10 @@ tracks/0/keys = {
 "values": [120, 121, 122, 123]
 }
 
-[sub_resource type="Animation" id="Animation_yg3xg"]
-resource_name = "jump_end"
-length = 0.3
+[sub_resource type="Animation" id="Animation_wx14c"]
+resource_name = "jump_start"
+length = 0.25
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -90,10 +79,27 @@ tracks/0/path = NodePath("RedHandJackSpritesheet:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [110, 114]
+}
+
+[sub_resource type="Animation" id="Animation_2t1hl"]
+resource_name = "run"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RedHandJackSpritesheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [130, 131, 132, 133]
+"values": [100, 101, 102, 103, 104, 105, 106, 107]
 }
 
 [sub_resource type="Animation" id="Animation_d8vp1"]
@@ -112,8 +118,8 @@ tracks/0/keys = {
 "values": [140, 144]
 }
 
-[sub_resource type="Animation" id="Animation_apr8t"]
-resource_name = "swing_2_side"
+[sub_resource type="Animation" id="Animation_nchmf"]
+resource_name = "swing_1_side_air"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -125,7 +131,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [145, 149]
+"values": [160, 164]
 }
 
 [sub_resource type="Animation" id="Animation_lpx4m"]
@@ -144,8 +150,8 @@ tracks/0/keys = {
 "values": [150, 154]
 }
 
-[sub_resource type="Animation" id="Animation_at7g5"]
-resource_name = "swing_2_up"
+[sub_resource type="Animation" id="Animation_onejk"]
+resource_name = "swing_1_up_air"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -157,11 +163,11 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [155, 159]
+"values": [170, 174]
 }
 
-[sub_resource type="Animation" id="Animation_nchmf"]
-resource_name = "swing_1_side_air"
+[sub_resource type="Animation" id="Animation_apr8t"]
+resource_name = "swing_2_side"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -173,7 +179,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [160, 164]
+"values": [145, 149]
 }
 
 [sub_resource type="Animation" id="Animation_f6pvo"]
@@ -192,8 +198,8 @@ tracks/0/keys = {
 "values": [165, 169]
 }
 
-[sub_resource type="Animation" id="Animation_onejk"]
-resource_name = "swing_1_up_air"
+[sub_resource type="Animation" id="Animation_at7g5"]
+resource_name = "swing_2_up"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -205,7 +211,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [170, 174]
+"values": [155, 159]
 }
 
 [sub_resource type="Animation" id="Animation_gcb1e"]
@@ -223,12 +229,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [175, 179]
 }
-
-[sub_resource type="Animation" id="Animation_cu33m"]
-resource_name = "hurt"
-
-[sub_resource type="Animation" id="Animation_bj381"]
-resource_name = "death"
 
 [sub_resource type="Animation" id="Animation_a1bf7"]
 resource_name = "turn_to_run"
