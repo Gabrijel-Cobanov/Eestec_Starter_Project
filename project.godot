@@ -13,7 +13,8 @@ config_version=5
 config/name="Eestec_Starter_Project"
 run/main_scene="res://Menus and UI/Start menu/start_menu.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.364706, 0.678431, 0.886275, 1)
+config/icon="res://Eestec Gamedev Logo.png"
 
 [display]
 
