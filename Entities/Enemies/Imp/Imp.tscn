@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://b8h8sgc5adl6x"]
+
+[ext_resource type="Texture2D" uid="uid://63ut5seko7tq" path="res://Entities/Enemies/Imp/Imp_spritesheet.png" id="1_bkuf1"]
+[ext_resource type="Script" path="res://Entities/Common Entity Components/HealthComponent.gd" id="1_enyld"]
+[ext_resource type="Script" path="res://Entities/Common Entity Components/AttackComponent.gd" id="2_1oqk3"]
+[ext_resource type="Script" path="res://Entities/Enemies/MeleeEnemyStateMachine/MeeleeEnemySM.gd" id="4_sl2bf"]
+[ext_resource type="Script" path="res://Entities/Enemies/MeleeEnemyStateMachine/States/MEIdleState.gd" id="5_wugd6"]
+[ext_resource type="Script" path="res://Entities/Enemies/MeleeEnemyStateMachine/States/MEDeathState.gd" id="6_q54nw"]
+[ext_resource type="Script" path="res://Entities/Enemies/MeleeEnemyStateMachine/States/MEAttackState.gd" id="7_ei0yl"]
+[ext_resource type="Script" path="res://Entities/Enemies/MeleeEnemyStateMachine/States/MEMoveState.gd" id="7_mw3k7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tl53j"]
+size = Vector2(8, 14)
+
+[node name="Imp" type="CharacterBody2D"]
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("1_enyld")
+
+[node name="AttackComponent" type="Node" parent="."]
+script = ExtResource("2_1oqk3")
+
+[node name="CB2D collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_tl53j")
+
+[node name="Visuals" type="Node2D" parent="."]
+
+[node name="ImpSpritesheet" type="Sprite2D" parent="Visuals"]
+position = Vector2(1, -2)
+texture = ExtResource("1_bkuf1")
+hframes = 13
+vframes = 5
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals"]
+
+[node name="HitflashAnimator" type="AnimationPlayer" parent="Visuals"]
+
+[node name="ControlAreas" type="Node2D" parent="."]
+
+[node name="AttackArea" type="Area2D" parent="ControlAreas"]
+
+[node name="PursueArea" type="Area2D" parent="ControlAreas"]
+
+[node name="MeeleeEnemySM" type="Node" parent="."]
+script = ExtResource("4_sl2bf")
+
+[node name="MEIdleState" type="Node" parent="MeeleeEnemySM"]
+script = ExtResource("5_wugd6")
+
+[node name="MEMoveState" type="Node" parent="MeeleeEnemySM"]
+script = ExtResource("7_mw3k7")
+
+[node name="MEAttackState" type="Node" parent="MeeleeEnemySM"]
+script = ExtResource("7_ei0yl")
+
+[node name="MEDeathState" type="Node" parent="MeeleeEnemySM"]
+script = ExtResource("6_q54nw")
