@@ -19,7 +19,7 @@ var current_state: MeeleeEnemyBaseState
 # movement variables
 var nf: float = 500 # normalization factor
 var GRAVITY: int = ProjectSettings.get_setting("physics/2d/default_gravity")
-@export var movement_speed: float = 20
+@export var movement_speed: float = 7
 
 # flags
 var is_active: bool = true
@@ -28,7 +28,7 @@ var is_being_knocked_back: bool = false # this will be used to control the veloc
 
 func _ready():
 	health_component.hurt.connect(on_hurt)
-	kb_timer.timeout.connect(func(): is_being_knocked_back = false)
+	kb_timer.timeout.connect(on_kb_time_out)
 	
 	current_state = idle
 	
@@ -39,6 +39,11 @@ func _physics_process(delta):
 	current_state.physics_update(delta, self)
 	if !CB2D.is_on_floor():
 		CB2D.velocity.y += GRAVITY
+	
+	# perhaps change
+	if not is_being_knocked_back:
+		update_velocity(delta)
+	
 	CB2D.move_and_slide()
 	
 func switch_state(new_state: MeeleeEnemyBaseState):
@@ -49,8 +54,17 @@ func switch_state(new_state: MeeleeEnemyBaseState):
 func flip():
 	pass
 	
+func update_velocity(delta: float):
+	CB2D.velocity.x = -movement_speed * nf * delta
+	
+func reset_velocity_x():
+	CB2D.velocity.x = 0
+	
 func on_hurt(dmg: int):
 	is_being_knocked_back = true
 	kb_timer.start()
 	
+func on_kb_time_out():
+	is_being_knocked_back = false
+	reset_velocity_x()
 

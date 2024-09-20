@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c6fb3rqym7fh6"]
+[gd_scene load_steps=11 format=3 uid="uid://c6fb3rqym7fh6"]
 
 [ext_resource type="Texture2D" uid="uid://cf40r0iuq4q3x" path="res://Tilesets/Outer City/Sprites/Outer_City_Sky_BG.png" id="1_70768"]
 [ext_resource type="Texture2D" uid="uid://cfy0shghfdku7" path="res://Tilesets/Outer City/Sprites/Outer_City_Bavkground_Buildings_Looping_Parallax.png" id="2_ffi55"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dy6g2jvp6khf0" path="res://Tilesets/Outer City/Sprites/Buidlings/Two Story/House3.png" id="6_tp5ie"]
 [ext_resource type="PackedScene" uid="uid://dm530yaejkxyf" path="res://Entities/Player/Player.tscn" id="8_brhho"]
 [ext_resource type="PackedScene" uid="uid://dsx3lahivdedl" path="res://Tilesets/Outer City/Lamp/CityLamp.tscn" id="8_v7l2a"]
+[ext_resource type="PackedScene" uid="uid://b8h8sgc5adl6x" path="res://Entities/Enemies/Imp/Imp.tscn" id="10_067eo"]
 
 [node name="Rd" type="Node2D"]
 
@@ -67,3 +68,6 @@ position = Vector2(64.8428, 135.804)
 [node name="Camera2D" type="Camera2D" parent="Player/Player"]
 
 [node name="Enemies" type="Node2D" parent="."]
+
+[node name="Imp" parent="Enemies" instance=ExtResource("10_067eo")]
+position = Vector2(140.748, 132.986)

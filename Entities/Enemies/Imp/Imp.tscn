@@ -12,17 +12,17 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tl53j"]
 size = Vector2(8, 14)
 
-[sub_resource type="Animation" id="Animation_dxx1v"]
-resource_name = "idle"
-
-[sub_resource type="Animation" id="Animation_qh31e"]
-resource_name = "move"
-
 [sub_resource type="Animation" id="Animation_0iph8"]
 resource_name = "attack"
 
 [sub_resource type="Animation" id="Animation_tbcn4"]
 resource_name = "death"
+
+[sub_resource type="Animation" id="Animation_dxx1v"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_qh31e"]
+resource_name = "move"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3nguv"]
 _data = {
@@ -32,13 +32,16 @@ _data = {
 "move": SubResource("Animation_qh31e")
 }
 
-[node name="Imp" type="CharacterBody2D"]
+[node name="Imp" type="CharacterBody2D" groups=["enemies"]]
+collision_layer = 2
+collision_mask = 12
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("1_enyld")
 
-[node name="AttackComponent" type="Node" parent="."]
+[node name="AttackComponent" type="Node2D" parent="." node_paths=PackedStringArray("CB2D")]
 script = ExtResource("2_1oqk3")
+CB2D = NodePath("..")
 
 [node name="CB2D collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_tl53j")
@@ -64,19 +67,19 @@ libraries = {
 
 [node name="PursueArea" type="Area2D" parent="ControlAreas"]
 
-[node name="MeeleeEnemySM" type="Node" parent="."]
+[node name="MeeleeEnemySM" type="Node2D" parent="."]
 script = ExtResource("4_sl2bf")
 
-[node name="MEIdleState" type="Node" parent="MeeleeEnemySM"]
+[node name="MEIdleState" type="Node2D" parent="MeeleeEnemySM"]
 script = ExtResource("5_wugd6")
 
-[node name="MEMoveState" type="Node" parent="MeeleeEnemySM"]
+[node name="MEMoveState" type="Node2D" parent="MeeleeEnemySM"]
 script = ExtResource("7_mw3k7")
 
-[node name="MEAttackState" type="Node" parent="MeeleeEnemySM"]
+[node name="MEAttackState" type="Node2D" parent="MeeleeEnemySM"]
 script = ExtResource("7_ei0yl")
 
-[node name="MEDeathState" type="Node" parent="MeeleeEnemySM"]
+[node name="MEDeathState" type="Node2D" parent="MeeleeEnemySM"]
 script = ExtResource("6_q54nw")
 
 [node name="Timers" type="Node2D" parent="."]
@@ -84,5 +87,6 @@ script = ExtResource("6_q54nw")
 [node name="AttackTimer" type="Timer" parent="Timers"]
 
 [node name="KBTimer" type="Timer" parent="Timers"]
+wait_time = 0.05
 
 [node name="Timer3" type="Timer" parent="Timers"]

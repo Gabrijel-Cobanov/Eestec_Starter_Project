@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dm530yaejkxyf"]
+[gd_scene load_steps=32 format=3 uid="uid://dm530yaejkxyf"]
 
 [ext_resource type="Texture2D" uid="uid://ba4wapg78qa08" path="res://Entities/Player/Red_Hand_Jack_SPRITESHEET.png" id="1_cmuam"]
 [ext_resource type="Script" path="res://Entities/Common Entity Components/HealthComponent.gd" id="2_egkxq"]
@@ -13,11 +13,40 @@
 [ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerHurt.gd" id="11_25wnf"]
 [ext_resource type="Script" path="res://Entities/Player/State Machine/States/PlayerDeath.gd" id="12_h68hv"]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cun4s"]
+radius = 8.0
+
 [sub_resource type="Animation" id="Animation_bj381"]
 resource_name = "death"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RedHandJackSpritesheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [210, 214]
+}
 
 [sub_resource type="Animation" id="Animation_cu33m"]
 resource_name = "hurt"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("RedHandJackSpritesheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [180, 182]
+}
 
 [sub_resource type="Animation" id="Animation_x5ox5"]
 resource_name = "idle"
@@ -273,15 +302,22 @@ size = Vector2(4, 15)
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 collision_mask = 14
 
-[node name="HealthComponent" type="Node" parent="."]
+[node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("2_egkxq")
 
-[node name="AttackComponent" type="Node" parent="."]
+[node name="AttackComponent" type="Node2D" parent="." node_paths=PackedStringArray("CB2D", "side")]
 script = ExtResource("3_wkm26")
+CB2D = NodePath("..")
+side = NodePath("Side")
 
-[node name="Up" type="Area2D" parent="AttackComponent"]
+[node name="Side" type="Area2D" parent="AttackComponent"]
+collision_layer = 0
+collision_mask = 2
 
-[node name="Left" type="Area2D" parent="AttackComponent"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/Side"]
+position = Vector2(17, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_cun4s")
 
 [node name="Visuals" type="Node2D" parent="."]
 
@@ -290,7 +326,7 @@ position = Vector2(0, -4.5)
 texture = ExtResource("1_cmuam")
 hframes = 10
 vframes = 26
-frame = 179
+frame = 143
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals"]
 libraries = {
