@@ -365,10 +365,6 @@ script = ExtResource("12_h68hv")
 
 [node name="Timers" type="Node2D" parent="."]
 
-[node name="CoyoteTimer" type="Timer" parent="Timers"]
-wait_time = 0.2
-one_shot = true
-
 [node name="JumpBuffer" type="Timer" parent="Timers"]
 wait_time = 0.1
 one_shot = true

@@ -14,8 +14,7 @@ func update(ctx: PlayerStateMachine):
 func physics_update(delta:float, ctx: PlayerStateMachine):
 	ctx.move_horizontally(delta)
 	anim_duration -= delta
-	if anim_duration <= 0:
-		check_transitions(ctx)
+	check_transitions(ctx)
 	
 func exit(ctx: PlayerStateMachine):
 	pass

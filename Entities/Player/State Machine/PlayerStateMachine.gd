@@ -6,7 +6,6 @@ signal player_dead
 # Nodes
 @onready var health_component = $"../HealthComponent"
 @onready var CB2D = $".."
-@onready var coyote_timer = $"../Timers/CoyoteTimer"
 @onready var jump_buffer = $"../Timers/JumpBuffer"
 @onready var animation_player = $"../Visuals/AnimationPlayer"
 
@@ -27,7 +26,6 @@ var current_state: PlayerBaseState
 var nf: float = 500 # normalization factor
 var input_direction: Vector2 = Vector2.ZERO
 var GRAVITY: int = ProjectSettings.get_setting("physics/2d/default_gravity")
-var coyote_time: float = 0.2
 var jump_buffer_time: float = 0.1
 @export var movement_speed: float = 10
 @export var jump_force: float = -20
@@ -47,10 +45,8 @@ func _process(delta):
 
 	if Input.is_action_just_pressed("jump") and !is_grounded:
 		jump_buffer.start()
-		
-	can_jump = coyote_timer.time_left >= 0
+
 	jump_buffer_has_time_left = jump_buffer.time_left >= 0
-	
 	
 	flip()
 	current_state.update(self)
