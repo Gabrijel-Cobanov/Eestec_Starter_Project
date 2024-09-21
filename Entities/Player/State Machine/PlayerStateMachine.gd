@@ -8,6 +8,7 @@ signal player_dead
 @onready var CB2D = $".."
 @onready var coyote_timer = $"../Timers/CoyoteTimer"
 @onready var jump_buffer = $"../Timers/JumpBuffer"
+@onready var animation_player = $"../Visuals/AnimationPlayer"
 
 
 # States
@@ -33,29 +34,22 @@ var jump_buffer_time: float = 0.1
 
 # Flags
 var is_facing_right: bool = true
-var jump_pressed: bool = true
 var can_jump: bool = true
-var should_jump: bool = true
+var jump_buffer_has_time_left: bool = true
 var can_attack: bool = true
+var is_grounded: bool = true
 
 func _ready():
 	current_state = idle
 	
 func _process(delta):
 	input_direction = Input.get_vector("left", "right", "up", "down").normalized()
-	
-	if CB2D.is_on_floor():
-		coyote_timer.wait_time = coyote_time
-		jump_buffer.wait_time = jump_buffer_time
-	elif !CB2D.is_on_floor() and coyote_timer.time_left == 0.2:
-		print_debug("Starting timer")
-		coyote_timer.start()
-		
-	if Input.is_action_just_pressed("jump"):
+
+	if Input.is_action_just_pressed("jump") and !is_grounded:
 		jump_buffer.start()
 		
 	can_jump = coyote_timer.time_left >= 0
-	should_jump = jump_buffer.time_left >= 0
+	jump_buffer_has_time_left = jump_buffer.time_left >= 0
 	
 	
 	flip()
@@ -65,11 +59,10 @@ func _physics_process(delta):
 	current_state.physics_update(delta, self)
 	if !CB2D.is_on_floor():
 		CB2D.velocity.y += GRAVITY * delta # important detail!!!!
-	
-	if Input.is_action_just_pressed("jump") and can_jump and should_jump:
-		CB2D.velocity.y =  jump_force * nf/44
+		is_grounded = false
+	else:
+		is_grounded = true
 		
-	CB2D.velocity.x = input_direction.x * movement_speed * nf * delta
 	CB2D.move_and_slide()
 	
 
@@ -88,4 +81,10 @@ func flip():
 	elif !is_facing_right and input_direction.x > 0:
 		CB2D.scale.x *= -1
 		is_facing_right = !is_facing_right
+		
+func jump():
+	CB2D.velocity.y =  jump_force * nf/44
+	
+func move_horizontally(delta: float):
+	CB2D.velocity.x = input_direction.x * movement_speed * nf * delta
 

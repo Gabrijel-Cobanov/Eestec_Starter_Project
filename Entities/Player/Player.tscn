@@ -326,7 +326,7 @@ position = Vector2(0, -4.5)
 texture = ExtResource("1_cmuam")
 hframes = 10
 vframes = 26
-frame = 143
+frame = 130
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals"]
 libraries = {

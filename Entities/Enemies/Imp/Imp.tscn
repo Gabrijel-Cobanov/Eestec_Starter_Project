@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b8h8sgc5adl6x"]
+[gd_scene load_steps=19 format=3 uid="uid://b8h8sgc5adl6x"]
 
 [ext_resource type="Texture2D" uid="uid://63ut5seko7tq" path="res://Entities/Enemies/Imp/Imp_spritesheet.png" id="1_bkuf1"]
 [ext_resource type="Script" path="res://Entities/Common Entity Components/HealthComponent.gd" id="1_enyld"]
@@ -9,17 +9,48 @@
 [ext_resource type="Script" path="res://Entities/Enemies/MeleeEnemyStateMachine/States/MEAttackState.gd" id="7_ei0yl"]
 [ext_resource type="Script" path="res://Entities/Enemies/MeleeEnemyStateMachine/States/MEMoveState.gd" id="7_mw3k7"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_36pfw"]
+radius = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ep45r"]
+size = Vector2(10, 14)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tl53j"]
 size = Vector2(8, 14)
 
 [sub_resource type="Animation" id="Animation_0iph8"]
 resource_name = "attack"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ImpSpritesheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [39, 45]
+}
 
 [sub_resource type="Animation" id="Animation_tbcn4"]
 resource_name = "death"
 
 [sub_resource type="Animation" id="Animation_dxx1v"]
 resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ImpSpritesheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
 
 [sub_resource type="Animation" id="Animation_qh31e"]
 resource_name = "move"
@@ -32,6 +63,12 @@ _data = {
 "move": SubResource("Animation_qh31e")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2t28a"]
+size = Vector2(120, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eas0x"]
+size = Vector2(38, 14)
+
 [node name="Imp" type="CharacterBody2D" groups=["enemies"]]
 collision_layer = 2
 collision_mask = 12
@@ -39,9 +76,24 @@ collision_mask = 12
 [node name="HealthComponent" type="Node2D" parent="."]
 script = ExtResource("1_enyld")
 
-[node name="AttackComponent" type="Node2D" parent="." node_paths=PackedStringArray("CB2D")]
+[node name="AttackComponent" type="Node2D" parent="." node_paths=PackedStringArray("CB2D", "contact", "side")]
 script = ExtResource("2_1oqk3")
 CB2D = NodePath("..")
+contact = NodePath("Contact")
+side = NodePath("Side")
+
+[node name="Side" type="Area2D" parent="AttackComponent"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/Side"]
+position = Vector2(9, -2)
+shape = SubResource("CircleShape2D_36pfw")
+debug_color = Color(0.823529, 0.0588235, 0.270588, 0.419608)
+
+[node name="Contact" type="Area2D" parent="AttackComponent"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackComponent/Contact"]
+shape = SubResource("RectangleShape2D_ep45r")
+debug_color = Color(0.796078, 0, 0.368627, 0.419608)
 
 [node name="CB2D collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_tl53j")
@@ -53,6 +105,7 @@ position = Vector2(1, -2)
 texture = ExtResource("1_bkuf1")
 hframes = 13
 vframes = 5
+frame = 39
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Visuals"]
 libraries = {
@@ -63,12 +116,31 @@ libraries = {
 
 [node name="ControlAreas" type="Node2D" parent="."]
 
-[node name="AttackArea" type="Area2D" parent="ControlAreas"]
-
 [node name="PursueArea" type="Area2D" parent="ControlAreas"]
 
-[node name="MeeleeEnemySM" type="Node2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlAreas/PursueArea"]
+shape = SubResource("RectangleShape2D_2t28a")
+debug_color = Color(0.745098, 0.454902, 0.231373, 0.419608)
+
+[node name="AttackArea" type="Area2D" parent="ControlAreas"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlAreas/AttackArea"]
+shape = SubResource("RectangleShape2D_eas0x")
+debug_color = Color(0.988235, 0.301961, 0.52549, 0.419608)
+
+[node name="MeeleeEnemySM" type="Node2D" parent="." node_paths=PackedStringArray("pursue_area", "attack_area", "CB2D", "health_component", "kb_timer", "attack_timer", "idle", "move", "attack", "death")]
 script = ExtResource("4_sl2bf")
+pursue_area = NodePath("../ControlAreas/PursueArea")
+attack_area = NodePath("../ControlAreas/AttackArea")
+attack_anim_duration = 0.6
+CB2D = NodePath("..")
+health_component = NodePath("../HealthComponent")
+kb_timer = NodePath("../Timers/KBTimer")
+attack_timer = NodePath("../Timers/AttackTimer")
+idle = NodePath("MEIdleState")
+move = NodePath("MEMoveState")
+attack = NodePath("MEAttackState")
+death = NodePath("MEDeathState")
 
 [node name="MEIdleState" type="Node2D" parent="MeeleeEnemySM"]
 script = ExtResource("5_wugd6")
