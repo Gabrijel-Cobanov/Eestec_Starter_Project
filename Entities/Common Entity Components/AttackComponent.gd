@@ -7,9 +7,9 @@ signal hit_enemy
 @export var kb_force: float = 200
 @export var CB2D: CharacterBody2D
 
-@export var contact: Area2D
-@export var side: Area2D
-@export var up: Area2D
+@export var contact: AttackArea2D
+@export var side: AttackArea2D
+@export var up: AttackArea2D
 
 func _ready():
 	if side:

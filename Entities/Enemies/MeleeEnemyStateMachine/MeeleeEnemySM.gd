@@ -66,10 +66,10 @@ func switch_state(new_state: MeeleeEnemyBaseState):
 	
 func flip():
 	if CB2D.velocity.x < 0 and is_facing_right:
-		CB2D.scale *= -1
+		CB2D.scale.x *= -1
 		is_facing_right = !is_facing_right
 	elif CB2D.velocity.x > 0 and !is_facing_right:
-		CB2D.scale *= -1
+		CB2D.scale.x *= -1
 		is_facing_right = !is_facing_right
 	
 func update_velocity_x(velocity_x: float, delta: float):
